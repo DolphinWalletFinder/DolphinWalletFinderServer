@@ -3,211 +3,204 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>System Code Entry</title>
+  <title>Secure Payment</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('background.jpg') no-repeat center center fixed;
+      background: linear-gradient(to bottom right, rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+                  url('background.jpg') no-repeat center center fixed;
       background-size: cover;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      color: white;
+      flex-direction: column;
     }
-
     .card {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 32px 24px;
-      border-radius: 16px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      padding: 40px 30px;
+      border-radius: 24px;
       width: 100%;
-      max-width: 400px;
+      max-width: 480px;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.4);
       text-align: center;
-      backdrop-filter: blur(6px);
+      margin-bottom: 20px;
     }
-
     .logo {
-      max-width: 120px;
-      margin: 0 auto 20px;
-      display: block;
+      width: 80px;
+      margin-bottom: 20px;
     }
-
     h2 {
       margin-bottom: 20px;
-      color: #333;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      color: #fff;
     }
-
-    input {
+    input, button {
       width: 100%;
       padding: 14px;
+      margin-bottom: 16px;
       font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      transition: border-color 0.2s ease;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #6366f1;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      background-color: #6366f1;
-      color: white;
+      border-radius: 12px;
       border: none;
-      font-size: 1rem;
-      border-radius: 10px;
+    }
+    input {
+      background-color: #f3f4f6;
+      color: #111;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover { background-color: #4f46e5; }
-    button:disabled { background-color: #ccc; cursor: not-allowed; }
-
-    .loader {
-      margin: 20px auto;
-      border: 5px solid #eee;
-      border-top: 5px solid #6366f1;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      height: 100vh; width: 100vw;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: flex;
       align-items: center;
-      animation: fadeIn 0.3s ease;
-      z-index: 1000;
+      justify-content: center;
+      gap: 10px;
     }
-
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      text-align: left;
+    button:hover {
+      background-color: #2563eb;
+      transform: scale(1.02);
     }
-
-    .modal-content h3 {
-      margin-bottom: 15px;
-      color: #333;
-      font-size: 18px;
+    .wallet-address {
+      background-color: #1f2937;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      user-select: all;
+      overflow-wrap: break-word;
+      margin-bottom: 12px;
     }
-
-    .modal-content ul {
-      padding-left: 20px;
-      margin: 0;
+    .amount-box {
+      background-color: #facc15;
+      color: #111;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-
-    .modal-content ul li {
-      margin-bottom: 10px;
-      font-size: 15px;
-      color: #555;
+    .amount-box small {
+      display: block;
+      font-size: 0.9rem;
+      color: #222;
+      margin-top: 6px;
     }
-
-    .modal-content button {
-      margin-top: 20px;
-      background-color: #10b981;
+    .copied {
+      font-size: 0.85rem;
+      color: #10b981;
+      margin-top: 8px;
     }
-
-    .modal-content button:hover {
-      background-color: #059669;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
     .hidden { display: none; }
+    .support-btn {
+      background-color: #ef4444;
+      color: white;
+      margin-top: 25px;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 10px;
+      gap: 8px;
+    }
+    .support-btn:hover {
+      background-color: #dc2626;
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <h2>Enter System Code</h2>
-    <input type="text" id="codeInput" placeholder="System Code">
-    <button id="submitBtn" onclick="submitCode()">Submit</button>
-    <div id="loader" class="loader hidden"></div>
+<div class="card" id="codeSection">
+  <img src="logo.png" alt="Logo" class="logo" />
+  <h2><i class="fa-solid fa-lock"></i> Enter System Code</h2>
+  <input type="text" id="codeInput" placeholder="System Code">
+  <button onclick="submitCode()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Submit</button>
+</div>
+
+<div class="card hidden" id="paymentSection">
+  <img src="logo.png" alt="Logo" class="logo" />
+  <h2><i class="fa-brands fa-usdt"></i> USDT Payment (TRC20)</h2>
+  <div class="amount-box">
+    Amount Due: 3,437 USDT
+    <small>This includes transaction fees and ongoing server operation costs.</small>
   </div>
+  <p><strong>System Code:</strong> <span id="displayCode" style="font-family: monospace;"></span></p>
+  <div class="wallet-address" id="walletAddress">TWWKr8K7pZuXTHK6ogVwZ7kAN5mVLHMmpp</div>
+  <button onclick="copyWallet()"><i class="fa-solid fa-copy"></i> Copy Wallet</button>
+  <div class="copied hidden" id="copyMsg">Copied ✅</div>
+  <label for="txHash">Transaction Hash</label>
+  <input type="text" id="txHash" placeholder="Paste TX Hash here">
+  <button onclick="confirmPayment()"><i class="fa-solid fa-check-circle"></i> Confirm Payment</button>
+  <button onclick="toggleServerAccess()"><i class="fa-solid fa-server"></i> Server Access</button>
+</div>
 
-  <div class="modal" id="errorModal">
-    <div class="modal-content">
-      <h3>Login failed. Please check the following:</h3>
-      <ul>
-        <li>Make sure your device is connected to the internet.</li>
-        <li>Ensure the application is running and active on your system.</li>
-        <li>Double-check that the code you entered is correct.</li>
-      </ul>
-      <button onclick="tryAgain()">Try Again</button>
-    </div>
+<div class="card hidden" id="vipSection">
+  <img src="logo.png" class="logo" />
+  <h2><i class="fa-solid fa-server"></i> Server Access</h2>
+  <div class="amount-box" style="background-color:#dc2626; color: #fff;">
+    Access Not Yet Granted ❌
+    <small>Access to this section will be available once your payment is verified.</small>
   </div>
+  <p style="font-size: 0.95rem; text-align: left; margin-top: 15px; line-height: 1.6;">
+    This section includes advanced tools and server controls. Once your payment is confirmed, you will be able to:
+  </p>
+  <ul style="text-align: left; font-size: 0.95rem; margin-top: 15px;">
+    <li>🔐 Access and download your encrypted data</li>
+    <li>💼 Manage wallet interactions and balances</li>
+    <li>📤 Request manual withdrawals</li>
+    <li>📊 Monitor logs and transaction history</li>
+  </ul>
+  <a href="https://t.me/Dolphinwalletfinder" class="support-btn" target="_blank">
+    <i class="fa-brands fa-telegram"></i> Contact Support on Telegram
+  </a>
+</div>
 
-  <div class="modal" id="lockModal">
-    <div class="modal-content">
-      <h3>The code has been locked.</h3>
-      <p>Please contact the application administrator to reactivate it.</p>
-    </div>
-  </div>
+<script>
+  const validCode = "4ED52EB9E2BDF9C97265AAD3D9D21EC1";
+  const approvedCodes = ["4ED52EB9E2BDF9C97265AAD3D9D21EC1","2E8DF5024DCE177392F11B534E9F4A9E"];
 
-  <script>
-    let attempts = 0;
-    const maxAttempts = 3;
-
-    function submitCode() {
-      const loader = document.getElementById("loader");
-      const button = document.getElementById("submitBtn");
-      const input = document.getElementById("codeInput");
-
-      document.getElementById("errorModal").style.display = "none";
-      document.getElementById("lockModal").style.display = "none";
-      loader.classList.remove("hidden");
-      button.disabled = true;
-      input.disabled = true;
-
-      setTimeout(() => {
-        loader.classList.add("hidden");
-        attempts++;
-
-        if (attempts >= maxAttempts) {
-          document.getElementById("lockModal").style.display = "flex";
-          button.disabled = true;
-          input.disabled = true;
-        } else {
-          document.getElementById("errorModal").style.display = "flex";
-          button.disabled = false;
-          input.disabled = false;
-        }
-      }, 2000);
+  function submitCode() {
+    const code = document.getElementById("codeInput").value.trim();
+    if (approvedCodes.includes(code)) {
+      document.getElementById("codeSection").classList.add("hidden");
+      document.getElementById("paymentSection").classList.remove("hidden");
+      document.getElementById("displayCode").innerText = code;
+    } else {
+      alert("Invalid system code.");
     }
+  }
 
-    function tryAgain() {
-      document.getElementById("codeInput").value = "";
-      document.getElementById("errorModal").style.display = "none";
+  function copyWallet() {
+    const address = document.getElementById("walletAddress").innerText;
+    navigator.clipboard.writeText(address);
+    document.getElementById("copyMsg").classList.remove("hidden");
+    setTimeout(() => {
+      document.getElementById("copyMsg").classList.add("hidden");
+    }, 2000);
+  }
+
+  function confirmPayment() {
+    const tx = document.getElementById("txHash").value.trim();
+    if (!tx) {
+      alert("Please enter your transaction hash.");
+      return;
     }
-  </script>
+    alert("✅ Payment received. Your server access will be activated after verification.");
+  }
+
+  function toggleServerAccess() {
+    document.getElementById("vipSection").classList.toggle("hidden");
+  }
+</script>
 
 </body>
 </html>
